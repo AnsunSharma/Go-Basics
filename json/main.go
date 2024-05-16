@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 )
 
@@ -24,23 +23,31 @@ func main() {
 	defer res.Body.Close()
 
 	// Read the response body
-	data, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println("Error reading response body:", err)
-		return
-	}
+	// data, err := ioutil.ReadAll(res.Body)
+	// if err != nil {
+	// 	fmt.Println("Error reading response body:", err)
+	// 	return
+	// }
 	// fmt.Println(string(data))
 
 	// Convert response data to slice of Todo structs
-	var todos []Todo
-	err = json.Unmarshal(data, &todos)
-	if err != nil {
-		fmt.Println("Error parsing JSON:", err)
-		return
-	}
+	// var todos []Todo
+	// err = json.Unmarshal(data, &todos)
+	// if err != nil {
+	// 	fmt.Println("Error parsing JSON:", err)
+	// 	return
+	// }
 
 	// fmt.Println(todos)
 	// Print the todos
+
+	var todos []Todo
+
+	err = json.NewDecoder(res.Body).Decode(&todos)
+	if err != nil {
+		fmt.Println("error :-", err)
+	}
+
 	for _, todo := range todos {
 		fmt.Println(todo.UserID, todo.Title)
 	}
