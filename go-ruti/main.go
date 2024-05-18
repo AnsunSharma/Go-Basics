@@ -12,7 +12,16 @@ func say(s string) {
 	}
 }
 
+func say2() {
+	fmt.Println("started say2")
+	time.Sleep(1000 * time.Millisecond)
+	fmt.Println("ended say2")
+}
+
 func main() {
 	go say("world")
-	say("hello")
+	go say("hello")
+	go say2()
+	time.Sleep(800 * time.Millisecond)
+
 }
